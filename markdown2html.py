@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+0. Start a script
+"""
 
 
 if __name__ == "__main__":
