@@ -14,6 +14,6 @@ if __name__ == "__main__":
     elif not path.exists(sys.argv[1]):
         error = 'Missing ' + sys.argv[1]
     if error is not None:
-        sys.stderr.write(error)
+        sys.stderr.write(error + '\n')
         exit(1)
     exit(0)
