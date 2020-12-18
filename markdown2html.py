@@ -19,12 +19,25 @@ if __name__ == "__main__":
 
     Markdown = open(sys.argv[1])
     linesList = Markdown.readlines()
+    ol = False
     for i in range(len(linesList)):
         if linesList[i][0] == '#':
             counter = linesList[i].count('#')
             linesList[i] = linesList[i].replace('#', '')
             linesList[i] = linesList[i].replace('\n', '')
             linesList[i] = '<h' + str(counter) + '>' + linesList[i][1:] + '</h' + str(counter) + '>\n'
+        if linesList[i][0] == '-':
+            linesList[i] = linesList[i].replace('-', '')
+            linesList[i] = linesList[i].replace('\n', '')
+            linesList[i] = '<li>' + linesList[i][1:] + '</li>\n'
+            if not ol:
+                ol = True
+                linesList[i] = '<ul>\n' + linesList[i]
+            if linesList[i] == linesList[-1]:
+                linesList[i] = linesList[i] + '</ul>\n'
+        elif ol == True:
+            ol = False
+            linesList[i] = '</ul>\n' + linesList[i]
     linesAgain = ''.join(linesList)
     outputFile = open(sys.argv[2], 'w')
     outputFile.write(linesAgain)
