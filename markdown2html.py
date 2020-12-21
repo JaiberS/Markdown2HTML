@@ -3,7 +3,6 @@
 0. Start a script
 """
 
-
 if __name__ == "__main__":
     import sys
     from os import path
@@ -21,7 +20,23 @@ if __name__ == "__main__":
     linesList = Markdown.readlines()
     ul = False
     ol = False
+    paragraph = False
     for i in range(len(linesList)):
+        if paragraph == True:
+            if linesList[i][0].isalpha():
+                linesList[i] = '<br/>\n' + linesList[i]
+            if linesList[i] == '\n':
+                linesList[i] = '</p>\n'
+                paragraph = False
+            if linesList[i] == linesList[-1]:
+                linesList[i] = linesList[i] + '\n</p>'
+        if linesList[i][0].isalpha():
+            if paragraph == False:
+                paragraph = True
+                if linesList[i - 1] != '\n':
+                    linesList[i - 1] = linesList[i - 1] + '<p>\n'
+                else:
+                    linesList[i - 1] = '<p>' + linesList[i - 1]
         if linesList[i][0] == '#':
             counter = linesList[i].count('#')
             linesList[i] = linesList[i].replace('#', '')
@@ -50,7 +65,7 @@ if __name__ == "__main__":
                 linesList[i] = linesList[i] + '</ol>\n'
         elif ol == True:
             ol = False
-            linesList[i - 1] =  linesList[i - 1] + '</ol>\n'
+            linesList[i - 1] = linesList[i - 1] + '</ol>\n'
     linesAgain = ''.join(linesList)
     outputFile = open(sys.argv[2], 'w')
     outputFile.write(linesAgain)
