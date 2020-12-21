@@ -22,6 +22,10 @@ if __name__ == "__main__":
     ol = False
     paragraph = False
     for i in range(len(linesList)):
+        linesList[i] = linesList[i].replace('**', '<b>', 1)
+        linesList[i] = linesList[i].replace('**', '</b>', 1)
+        linesList[i] = linesList[i].replace('__', '<em>', 1)
+        linesList[i] = linesList[i].replace('__', '</em>', 1)
         if paragraph == True:
             if linesList[i][0].isalpha():
                 linesList[i] = '<br/>\n' + linesList[i]
@@ -30,13 +34,15 @@ if __name__ == "__main__":
                 paragraph = False
             if linesList[i] == linesList[-1]:
                 linesList[i] = linesList[i] + '\n</p>'
-        if linesList[i][0].isalpha():
+        if linesList[i][0].isalpha() or linesList[i][0:3] == '<b>' or linesList[i][0:3] == '<em>':
             if paragraph == False:
                 paragraph = True
                 if linesList[i - 1] != '\n':
                     linesList[i - 1] = linesList[i - 1] + '<p>\n'
                 else:
                     linesList[i - 1] = '<p>' + linesList[i - 1]
+                if linesList[i] == linesList[-1]:
+                    linesList[i] = linesList[i] + '</p>\n'
         if linesList[i][0] == '#':
             counter = linesList[i].count('#')
             linesList[i] = linesList[i].replace('#', '')
